@@ -1,5 +1,33 @@
+import os
+#保存数据的文件路径
+FILE_NAME="student.txt"
+
 #存储所有学生数据
 students_data={}
+
+#程序启动：读取文件加载历史数据
+def load_data():
+   global students_data
+   #判断文件是否存在
+   if not os.path.exists(FILE_NAME):
+       return
+   #读取文件:
+   with open(FILE_NAME,"r",encoding="utf-8")as f:
+       lines=f.readlines()
+       for line in lines:
+           line=line.strip()
+           if line=="":
+               continue
+           name,score=line.split(",")
+           students_data[name]=int(score)
+               
+
+#程序启动：保存数据到文件
+def save_data():
+    with open(FILE_NAME,"w",encoding="utf-8")as f:
+        for name,score in students_data.items():
+            f.write(f"{name},{score}\n")
+    
 
 #录入学生函数
 def add_students():
@@ -23,7 +51,7 @@ def add_students():
 
 
 #查询学生函数
-def search_studentd():
+def search_student():
     name=input("请输入要查询学生的名字：")
     if name in students_data:
         print(f"{name}的成绩是{students_data[name]}分")
@@ -53,7 +81,7 @@ def modify_score():
 def del_student():
     name=input("请输入要删除学生的姓名：")
     if name in students_data:
-        del_student()
+        del students_data[name]
         print("该学生信息已删除！")
     else:
         print("未查询到该学生的信息")
@@ -74,23 +102,28 @@ def show_all():
 #程序主菜单
 def main():
 
+    #启动加载文件数据：
+    load_data()
+
     print("======学生成绩管理系统======")
     while True:
-        print("输入1录入信息 2查询成绩 3退出程序 4修改信息 5删除学生 6查看所有信息\n")
+        print("输入1录入信息 2查询成绩 3修改信息 4删除学生 5查看所有信息 0退出程序\n")
         choose=int(input("请选择您的需求："))
         if choose==1:
             add_students()
         elif choose==2:
-            search_studentd()
+            search_student()
         elif choose==3:
-            print("程序退出！")
-            return
-        elif choose==4:
             modify_score()
-        elif choose==5:
+        elif choose==4:
             del_student()
-        elif choose==6:
+        elif choose==5:
             show_all()
+        elif choose == 0:
+            #退出前保存数据
+            save_data()
+            print("数据已保存，程序退出！！")
+            break
         else:
             print("该输入无效，请重新输入：")
 
