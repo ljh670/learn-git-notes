@@ -99,6 +99,26 @@ def show_all():
             print(f"姓名：{name}，成绩：{score}")
 
 
+def score_asc():
+    if len(students_data)==0:
+        print("暂无任何学生数据")
+        return
+    print("=====学生成绩升序=====")
+    sorted_data=sorted(students_data.items(),key=lambda x:x[1])
+    for name,score in sorted_data:
+        print(f"成绩：{name}，分数：{score}")
+
+
+def score_desc():
+    if len(students_data)==0:
+        print("暂无任何学生数据")
+        return
+    print("=====学生成绩降序=====")
+    sorted_data=sorted(students_data.items(),key=lambda x:x[1],reverse=True)
+    for name,score in sorted_data:
+        print(f"成绩：{name}，分数：{score}")
+
+
 #班级成绩统计：
 def stat_score():
     if len(students_data)==0:
@@ -123,7 +143,7 @@ def main():
 
     print("======学生成绩管理系统======")
     while True:
-        print("输入1录入信息 2查询成绩 3修改信息 4删除学生 5查看所有信息 6成绩统计 0退出程序\n")
+        print("输入1录入信息 2查询成绩 3修改信息 4删除学生 5查看所有信息 6成绩统计 7成绩升序排列 8成绩降序排列 0退出程序\n")
         choose=int(input("请选择您的需求："))
         if choose==1:
             add_students()
@@ -137,6 +157,10 @@ def main():
             show_all()
         elif choose==6:
             stat_score()
+        elif choose==7:
+            score_asc()
+        elif choose==8:
+            score_desc()
         elif choose == 0:
             #退出前保存数据
             save_data()
