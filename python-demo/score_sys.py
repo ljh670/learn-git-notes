@@ -19,7 +19,7 @@ def load_data():
            if line=="":
                continue
            name,score=line.split(",")
-           students_data[name]=float(score);#可以兼容小数分数存储读取
+           students_data[name]=float(score)#可以兼容小数分数存储读取
                
 
 #程序启动：保存数据到文件
