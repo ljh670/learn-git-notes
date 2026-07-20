@@ -19,7 +19,7 @@ def load_data():
            if line=="":
                continue
            name,score=line.split(",")
-           students_data[name]=float(score);#可以兼容小数分数存储读取
+           students_data[name]=float(score)#可以兼容小数分数存储读取
                
 
 #程序启动：保存数据到文件
@@ -86,7 +86,25 @@ def del_student():
     else:
         print("未查询到该学生的信息")
 
+#成绩升序排列
+def sort_asc():
+    if len(students_data)==0:
+        print("暂无任何学生信息")
+        return
+    sorted_data=sorted(students_data.items(),key=lambda x:x[1])
+    print("=====成绩升序排列=====")
+    for name,score in sorted_data:
+        print(f"姓名：{name}，成绩：{score}")
 
+#成绩降序排列
+def sort_desc():
+    if len(students_data)==0:
+        print("暂无任何信息")
+        return
+    sorted_data=sorted(students_data.items(),key=lambda x:x[1],reverse=True)
+    print("=====成绩降序排列=====")
+    for name,score in sorted_data:
+        print(f"姓名：{name}，成绩：{score}")
 
 #今日新增3：展示全部学生
 def show_all():
@@ -161,6 +179,9 @@ def main():
             score_asc()
         elif choose==8:
             score_desc()
+            sort_asc()
+        elif choose==8:
+            sort_desc()
         elif choose == 0:
             #退出前保存数据
             save_data()
