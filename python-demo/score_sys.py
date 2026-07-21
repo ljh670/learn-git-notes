@@ -50,14 +50,23 @@ def add_students():
         print("分数必须是数字")
 
 
-#查询学生函数
+
+def search_student_simple(students_data,key_name):
+    result=[]
+    for stu in students_data:
+        if key_name in stu:
+            result.append({"name":stu,"score":students_data[stu]})
+    return result
+
 def search_student():
     name=input("请输入要查询学生的名字：")
-    if name in students_data:
-        print(f"{name}的成绩是{students_data[name]}分")
+    results=search_student_simple(students_data,name)
+    if len(results)==0:
+        print("未查询到该学生信息！,请重新输入")
     else:
-        print("该数据不存在，请重新输入")
-        return
+        for stu in results:
+            print(f"{stu['name']}的成绩是：{stu['score']}")
+
 
 #今日新增1：修改学生成绩
 def modify_score():
@@ -177,9 +186,6 @@ def main():
             stat_score()
         elif choose==7:
             score_asc()
-        elif choose==8:
-            score_desc()
-            sort_asc()
         elif choose==8:
             sort_desc()
         elif choose == 0:
