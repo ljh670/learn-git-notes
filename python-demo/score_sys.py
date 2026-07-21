@@ -1,4 +1,5 @@
 import os
+import datetime
 #保存数据的文件路径
 FILE_NAME="student.txt"
 
@@ -27,7 +28,16 @@ def save_data():
     with open(FILE_NAME,"w",encoding="utf-8")as f:
         for name,score in students_data.items():
             f.write(f"{name},{score}\n")
-    
+
+
+
+#写入日志函数
+def write_log(action,student_name):
+    now=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_text=f"[{now}执行操作：{action}，学生姓名：{student_name}\n"
+    #追加写入日志文件
+    with open("operation_log.txt","a",encoding="utf-8") as f:
+        f.write(log_text)
 
 #录入学生函数
 def add_students():
@@ -41,7 +51,7 @@ def add_students():
             score=float(input("请输入学生的成绩："))
             if 0<=score<=100:
                 students_data[name]=score
-
+                write_log("录入",name)
                 print("录入成功！")
                 return
             else:
@@ -65,6 +75,7 @@ def search_student():
         print("未查询到该学生信息！,请重新输入")
     else:
         for stu in results:
+            write_log("查询",stu['name'])
             print(f"{stu['name']}的成绩是：{stu['score']}")
 
 
@@ -78,6 +89,7 @@ def modify_score():
         new_score=float(input("请输入新的分数："))
         if 0<=new_score<=100:
             students_data[name]=new_score
+            write_log("修改",name)
             print("分数修改完成！")
             return
         else:
@@ -91,6 +103,7 @@ def del_student():
     name=input("请输入要删除学生的姓名：")
     if name in students_data:
         del students_data[name]
+        write_log("删除",name)
         print("该学生信息已删除！")
     else:
         print("未查询到该学生的信息")
@@ -103,6 +116,7 @@ def sort_asc():
     sorted_data=sorted(students_data.items(),key=lambda x:x[1])
     print("=====成绩升序排列=====")
     for name,score in sorted_data:
+        write_log("升序",name)
         print(f"姓名：{name}，成绩：{score}")
 
 #成绩降序排列
@@ -113,6 +127,7 @@ def sort_desc():
     sorted_data=sorted(students_data.items(),key=lambda x:x[1],reverse=True)
     print("=====成绩降序排列=====")
     for name,score in sorted_data:
+        write_log("降序",name)
         print(f"姓名：{name}，成绩：{score}")
 
 #今日新增3：展示全部学生
@@ -123,27 +138,8 @@ def show_all():
     else:
         print("=====全部学生信息=====")
         for name,score in students_data.items():
+            write_log("查看",name)
             print(f"姓名：{name}，成绩：{score}")
-
-
-def score_asc():
-    if len(students_data)==0:
-        print("暂无任何学生数据")
-        return
-    print("=====学生成绩升序=====")
-    sorted_data=sorted(students_data.items(),key=lambda x:x[1])
-    for name,score in sorted_data:
-        print(f"成绩：{name}，分数：{score}")
-
-
-def score_desc():
-    if len(students_data)==0:
-        print("暂无任何学生数据")
-        return
-    print("=====学生成绩降序=====")
-    sorted_data=sorted(students_data.items(),key=lambda x:x[1],reverse=True)
-    for name,score in sorted_data:
-        print(f"成绩：{name}，分数：{score}")
 
 
 #班级成绩统计：
@@ -185,7 +181,7 @@ def main():
         elif choose==6:
             stat_score()
         elif choose==7:
-            score_asc()
+            sort_asc()
         elif choose==8:
             sort_desc()
         elif choose == 0:

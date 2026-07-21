@@ -1,1 +1,5 @@
 .idea/
+*.txt
+#python缓存文件
+__pycache__/
+*.pyc
